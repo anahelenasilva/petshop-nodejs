@@ -48,11 +48,23 @@ export class CustomerController {
     @UseInterceptors(new ValidatorInterceptor(new CreateAddressContract()))
     async addBillingAddress(@Param('document') document, @Body() model: Address) {
         try {
-            const res = await this.customerService.addBillingAddress(document, model);
-            return new Result('Cliente criado com sucesso', true, res, null);
+            await this.customerService.addBillingAddress(document, model);
+            return new Result('Endereço de cobrança criado com sucesso', true, model, null);
         } catch (error) {
             //rollback manual
             throw new HttpException(new Result('Erro ao cadastrar o endereço de cobrança', false, null, error), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @Post(':document/addresses/shipping')
+    @UseInterceptors(new ValidatorInterceptor(new CreateAddressContract()))
+    async addShippingAddress(@Param('document') document, @Body() model: Address) {
+        try {
+            await this.customerService.addShippingAddress(document, model);
+            return new Result('Endereço de Entrega criado com sucesso', true, model, null);
+        } catch (error) {
+            //rollback manual
+            throw new HttpException(new Result('Erro ao cadastrar o endereço de entrega', false, null, error), HttpStatus.BAD_REQUEST);
         }
     }
 
