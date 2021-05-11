@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { Body, Controller, Delete, Get, Param, Post, Put, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpException, HttpStatus, Param, Post, Put, UseInterceptors } from '@nestjs/common';
 import { ValidatorInterceptor } from 'src/interceptors/validator.interceptor';
 import { CreateCustomerContract } from '../contracts/customer.contracts';
 import { CreateCustomerDto } from '../dtos/create-customer.dto';
@@ -29,12 +29,17 @@ export class CustomerController {
     @Post()
     @UseInterceptors(new ValidatorInterceptor(new CreateCustomerContract()))
     async post(@Body() model: CreateCustomerDto) {
-        const user = await this.accountService.create(new User(model.document, model.password, true));
+        try {
+            const user = await this.accountService.create(new User(model.document, model.password, true));
 
-        var customer = new Customer(model.name, model.document, model.email, null, null, null, null, user);
-        const createdCustomer = await this.customerService.create(customer);
+            var customer = new Customer(model.name, model.document, model.email, null, null, null, null, user);
+            const createdCustomer = await this.customerService.create(customer);
 
-        return new Result('Cliente criado com sucesso', true, { user: user, customer: createdCustomer }, null);
+            return new Result('Cliente criado com sucesso', true, { user: user, customer: createdCustomer }, null);
+        } catch (error) {
+            //rollback manual
+            throw new HttpException(new Result('Erro ao cadastrar o cliente', false, null, error), HttpStatus.BAD_REQUEST);
+        }
     }
 
     @Put(':document')
