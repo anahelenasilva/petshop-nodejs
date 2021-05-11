@@ -51,6 +51,6 @@ export class CustomerService {
     }
 
     async findAll(): Promise<Customer[]> {
-        return await this.model.find({}, 'name email document').exec();
+        return await this.model.find({}, 'name email document').exec(); //para retornar todos os campos menos o "name", por exemplo: '-name'
     }
 }

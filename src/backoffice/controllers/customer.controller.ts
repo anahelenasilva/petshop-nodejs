@@ -21,8 +21,9 @@ export class CustomerController {
         private readonly customerService: CustomerService) { }
 
     @Get()
-    async get() {
-        return this.customerService.findAll();
+    async getAll() {
+        const customers = await this.customerService.findAll();
+        return new Result(null, true, customers, null);
     }
 
     @Get(':document')
