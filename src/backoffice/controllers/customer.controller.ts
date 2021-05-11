@@ -21,8 +21,8 @@ export class CustomerController {
         private readonly customerService: CustomerService) { }
 
     @Get()
-    get() {
-        return new Result(null, true, [], null);
+    async get() {
+        return this.customerService.findAll();
     }
 
     @Get(':document')

@@ -49,4 +49,8 @@ export class CustomerService {
             }
         });
     }
+
+    async findAll(): Promise<Customer[]> {
+        return await this.model.find({}, 'name email document').exec();
+    }
 }
