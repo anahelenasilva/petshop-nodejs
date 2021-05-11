@@ -1,8 +1,10 @@
 /* eslint-disable prettier/prettier */
 import { Body, Controller, Delete, Get, HttpException, HttpStatus, Param, Post, Put, UseInterceptors } from '@nestjs/common';
 import { ValidatorInterceptor } from 'src/interceptors/validator.interceptor';
-import { CreateCustomerContract } from '../contracts/customer.contracts';
+import { CreateAddressContract } from '../contracts/customer/create-address.contract';
+import { CreateCustomerContract } from '../contracts/customer/create-customer.contract';
 import { CreateCustomerDto } from '../dtos/create-customer.dto';
+import { Address } from '../models/address.model';
 import { Customer } from '../models/customer.model';
 import { Result } from '../models/result.model';
 import { User } from '../models/user.model';
@@ -39,6 +41,18 @@ export class CustomerController {
         } catch (error) {
             //rollback manual
             throw new HttpException(new Result('Erro ao cadastrar o cliente', false, null, error), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @Post(':document/addresses/billing')
+    @UseInterceptors(new ValidatorInterceptor(new CreateAddressContract()))
+    async addBillingAddress(@Param('document') document, @Body() model: Address) {
+        try {
+            const res = await this.customerService.addBillingAddress(document, model);
+            return new Result('Cliente criado com sucesso', true, res, null);
+        } catch (error) {
+            //rollback manual
+            throw new HttpException(new Result('Erro ao cadastrar o endereço de cobrança', false, null, error), HttpStatus.BAD_REQUEST);
         }
     }
 

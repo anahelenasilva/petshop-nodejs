@@ -8,7 +8,7 @@ export class Address {
         public neighborhood: string,
         public city: string,
         public state: string,
-        public county: string,
+        public country: string,
     ) {
 
     }
