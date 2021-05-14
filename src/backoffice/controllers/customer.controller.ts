@@ -27,8 +27,9 @@ export class CustomerController {
     }
 
     @Get(':document')
-    getById(@Param('document') document: string) {
-        return new Result(null, true, {}, null);
+    async getByDocument(@Param('document') document: string) {
+        const customer = await this.customerService.find(document);
+        return new Result(null, true, customer, null);
     }
 
     @Post()

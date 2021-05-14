@@ -55,4 +55,11 @@ export class CustomerService {
             .sort('name') //para ordenar decrescente usar '-name'
             .exec(); //para retornar todos os campos menos o "name", por exemplo: '-name'
     }
+
+    async find(document: string): Promise<Customer> {
+        return await this.model
+            .findOne({ document })
+            .populate('user', 'username')
+            .exec();
+    }
 }
