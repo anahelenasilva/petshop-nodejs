@@ -1,11 +1,13 @@
 /* eslint-disable prettier/prettier */
 import { Body, Controller, Delete, Get, HttpException, HttpStatus, Param, Post, Put, UseInterceptors } from '@nestjs/common';
 import { ValidatorInterceptor } from 'src/interceptors/validator.interceptor';
+import { CreateCreditCardContract } from '../contracts/customer/create-credit-card.contract';
 import { CreateCustomerContract } from '../contracts/customer/create-customer.contract';
 import { UpdateCustomerContract } from '../contracts/customer/update-customer.contract';
 import { CreateCustomerDto } from '../dtos/customer/create-customer.dto';
 import { UpdateCustomerDto } from '../dtos/customer/update-customer.dto';
 import { QueryDto } from '../dtos/query.dto';
+import { CreditCard } from '../models/credit-card.model';
 import { Customer } from '../models/customer.model';
 import { Result } from '../models/result.model';
 import { User } from '../models/user.model';
@@ -72,6 +74,18 @@ export class CustomerController {
         } catch (error) {
             //rollback manual
             throw new HttpException(new Result('Erro ao executar a query', false, null, error), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @Post(':document/credit-cards')
+    @UseInterceptors(new ValidatorInterceptor(new CreateCreditCardContract()))
+    async createCreditCard(@Param('document') document: string, @Body() model: CreditCard) {
+        try {
+            await this.customerService.saveOrUpdateCreditCard(document, model);
+            return new Result('Cartão de crédito criado com sucesso', true, model, null);
+        } catch (error) {
+            //rollback manual
+            throw new HttpException(new Result('Erro ao cadastrar o cartão de crédito', false, null, error), HttpStatus.BAD_REQUEST);
         }
     }
 }
