@@ -38,7 +38,7 @@ export class CustomerController {
         try {
             const user = await this.accountService.create(new User(model.document, model.password, true));
 
-            var customer = new Customer(model.name, model.document, model.email, [], null, null, null, user);
+            const customer = new Customer(model.name, model.document, model.email, [], null, null, null, user);
             const createdCustomer = await this.customerService.create(customer);
 
             return new Result('Cliente criado com sucesso', true, { user: user, customer: createdCustomer }, null);
