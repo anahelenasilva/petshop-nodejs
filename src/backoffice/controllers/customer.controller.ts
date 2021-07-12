@@ -5,6 +5,7 @@ import { CreateAddressContract } from '../contracts/customer/create-address.cont
 import { CreateCustomerContract } from '../contracts/customer/create-customer.contract';
 import { CreatePetContract } from '../contracts/customer/create-pet.contract';
 import { CreateCustomerDto } from '../dtos/create-customer.dto';
+import { QueryDto } from '../dtos/query.dto';
 import { Address } from '../models/address.model';
 import { Customer } from '../models/customer.model';
 import { Pet } from '../models/pet.model';
@@ -104,5 +105,16 @@ export class CustomerController {
     @Delete(':document')
     delete(@Param('document') document: string) {
         return new Result('Cliente removido com sucesso', true, document, null);
+    }
+
+    @Post('query')
+    async query(@Body() model: QueryDto) {
+        try {
+           const customers = await this.customerService.query(model);
+            return new Result(null, true, customers, null);
+        } catch (error) {
+            //rollback manual
+            throw new HttpException(new Result('Erro ao executar a query', false, null, error), HttpStatus.BAD_REQUEST);
+        }
     }
 }
