@@ -11,7 +11,7 @@ import { StoreModule } from 'src/modules/store/store.module'
     ),
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: '127.0.0.1',
+      host: 'localhost',
       port: 3306,
       username: 'root',
       password: 'ana123',
