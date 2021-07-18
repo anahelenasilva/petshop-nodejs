@@ -1,11 +1,8 @@
-/* eslint-disable prettier/prettier */
 export class Pet {
-    constructor(
-        public name: string,
-        public gender: string,
-        public kind: string,
-        public brand: string,
-    ) {
-
-    }
+  constructor(
+    public name: string,
+    public gender: string,
+    public kind: string,
+    public brand: string
+  ) {}
 }
