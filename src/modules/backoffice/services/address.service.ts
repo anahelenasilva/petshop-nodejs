@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common'
+import { HttpService, Injectable } from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
 import { Model } from 'mongoose'
 import { AddressType } from '../enums/address-type'
@@ -8,7 +8,8 @@ import { Customer } from '../models/customer.model'
 @Injectable()
 export class AddressService {
   constructor(
-    @InjectModel('Customer') private readonly model: Model<Customer>
+    @InjectModel('Customer') private readonly model: Model<Customer>,
+    private readonly httpService: HttpService
   ) {}
 
   async create(
@@ -38,5 +39,10 @@ export class AddressService {
         options
       )
     }
+  }
+
+  getAddressByZipCode(zipCode: string) {
+    const url = `https://viacep.com.br/ws/${zipCode}/json`
+    return this.httpService.get(url)
   }
 }
