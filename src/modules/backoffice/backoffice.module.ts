@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common'
+import { CacheModule, Module } from '@nestjs/common'
 import { JwtModule } from '@nestjs/jwt'
 import { MongooseModule } from '@nestjs/mongoose'
 import { PassportModule } from '@nestjs/passport'
@@ -21,6 +21,7 @@ import { PetService } from './services/pet.service'
 
 @Module({
   imports: [
+    CacheModule.register(),
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.register({
       secretOrKeyProvider: () => 'secretkey',
