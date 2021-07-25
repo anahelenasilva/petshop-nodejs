@@ -24,6 +24,7 @@ import { Result } from '../models/result.model'
 import { User } from '../models/user.model'
 import { AccountService } from '../services/account.service'
 import { CustomerService } from '../services/customer.service'
+import { Md5 } from 'md5-typescript'
 
 @Controller('v1/customers')
 export class CustomerController {
@@ -48,8 +49,11 @@ export class CustomerController {
   @UseInterceptors(new ValidatorInterceptor(new CreateCustomerContract()))
   async post(@Body() model: CreateCustomerDto) {
     try {
+      const passHash = await Md5.init(
+        `${model.password}${process.env.SALT_KEY}`
+      )
       const user = await this.accountService.create(
-        new User(model.document, model.password, ['user'], true)
+        new User(model.document, passHash, ['user'], true)
       )
 
       const customer = new Customer(

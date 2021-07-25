@@ -6,9 +6,7 @@ import { StoreModule } from 'src/modules/store/store.module'
 
 @Module({
   imports: [
-    MongooseModule.forRoot(
-      'mongodb+srv://ana:ana123@cluster0.yzgzr.azure.mongodb.net/petdb?retryWrites=true&w=majority'
-    ),
+    MongooseModule.forRoot(process.env.CONNECTION_STRING),
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: 'localhost',
