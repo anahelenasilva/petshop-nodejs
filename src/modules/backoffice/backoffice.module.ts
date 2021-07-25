@@ -2,8 +2,10 @@ import { Module } from '@nestjs/common'
 import { JwtModule } from '@nestjs/jwt'
 import { MongooseModule } from '@nestjs/mongoose'
 import { PassportModule } from '@nestjs/passport'
+
 import { AuthService } from 'src/shared/services/auth.service'
 import { JwtStrategy } from 'src/shared/strategies/jwt.strategy'
+import { AccountController } from './controllers/account.controller'
 
 import { AddressController } from './controllers/address.controller'
 import { CustomerController } from './controllers/customer.controller'
@@ -35,7 +37,12 @@ import { PetService } from './services/pet.service'
       }
     ])
   ],
-  controllers: [AddressController, CustomerController, PetController],
+  controllers: [
+    AccountController,
+    AddressController,
+    CustomerController,
+    PetController
+  ],
   providers: [
     AccountService,
     AddressService,
