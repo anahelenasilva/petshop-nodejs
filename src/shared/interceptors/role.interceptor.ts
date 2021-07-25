@@ -3,7 +3,8 @@ import {
   NestInterceptor,
   ExecutionContext,
   HttpException,
-  HttpStatus
+  HttpStatus,
+  CallHandler
 } from '@nestjs/common'
 import { Observable } from 'rxjs'
 import { JwtPayload } from '../interfaces/jwt-payload.interface'
@@ -15,7 +16,7 @@ export class RoleInterceptor implements NestInterceptor {
 
   intercept(
     context: ExecutionContext,
-    call$: Observable<any>
+    call$: CallHandler<any>
   ): Observable<any> {
     const user: JwtPayload = context.switchToHttp().getRequest().user
     console.log(user)
@@ -32,6 +33,6 @@ export class RoleInterceptor implements NestInterceptor {
       )
     }
 
-    return call$
+    return call$.handle()
   }
 }

@@ -21,6 +21,10 @@ export class AccountService {
     return await this.userModel.findOne({ username: username }).exec()
   }
 
+  async findByDocument(document): Promise<User> {
+    return await this.userModel.findOne({ document: document }).exec()
+  }
+
   async update(username: string, data: any): Promise<User> {
     return await this.userModel.findOneAndUpdate({ username }, data)
   }
