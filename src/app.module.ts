@@ -1,8 +1,10 @@
 import { Module } from '@nestjs/common'
 import { MongooseModule } from '@nestjs/mongoose'
 import { TypeOrmModule } from '@nestjs/typeorm'
+
 import { BackofficeModule } from 'src/modules/backoffice/backoffice.module'
 import { StoreModule } from 'src/modules/store/store.module'
+import { AgendaModule } from './agenda/agenda.module'
 
 @Module({
   imports: [
@@ -18,7 +20,8 @@ import { StoreModule } from 'src/modules/store/store.module'
       synchronize: true
     }),
     BackofficeModule,
-    StoreModule
+    StoreModule,
+    AgendaModule
   ],
   controllers: [],
   providers: []
