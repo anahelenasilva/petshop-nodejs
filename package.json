@@ -33,6 +33,7 @@
     "@nestjs/typeorm": "^8.0.1",
     "apollo-server-express": "^3.0.2",
     "cache-manager": "^3.4.4",
+    "class-validator": "^0.13.1",
     "compression": "^1.7.4",
     "graphql": "^15.5.1",
     "graphql-tools": "^7.0.5",
