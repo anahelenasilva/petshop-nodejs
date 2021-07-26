@@ -1,4 +1,8 @@
 import { Module } from '@nestjs/common'
+import { ReportResolver } from './report.resolver'
+import { ReportService } from './reports.service'
 
-@Module({})
+@Module({
+  providers: [ReportService, ReportResolver]
+})
 export class ReportsModule {}
