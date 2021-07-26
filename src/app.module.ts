@@ -4,10 +4,17 @@ import { TypeOrmModule } from '@nestjs/typeorm'
 
 import { BackofficeModule } from 'src/modules/backoffice/backoffice.module'
 import { StoreModule } from 'src/modules/store/store.module'
+import { ReportsModule } from 'src/modules/reports/reports.module'
 import { AgendaModule } from './agenda/agenda.module'
+import { GraphQLModule } from '@nestjs/graphql'
 
 @Module({
   imports: [
+    GraphQLModule.forRoot({
+      debug: true,
+      installSubscriptionHandlers: true,
+      autoSchemaFile: 'schema.gql'
+    }),
     MongooseModule.forRoot(process.env.CONNECTION_STRING),
     TypeOrmModule.forRoot({
       type: 'mysql',
@@ -21,7 +28,8 @@ import { AgendaModule } from './agenda/agenda.module'
     }),
     BackofficeModule,
     StoreModule,
-    AgendaModule
+    AgendaModule,
+    ReportsModule
   ],
   controllers: [],
   providers: []
