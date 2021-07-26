@@ -4,7 +4,7 @@ import { BookRoomCommand } from '../commands/book-room.command'
 export class RoomBookService {
   constructor(private readonly commandBus: CommandBus) {}
 
-  async Book(customerId: string, roomId: string) {
-    return this.commandBus.execute(new BookRoomCommand(customerId, roomId))
+  async Book(command: BookRoomCommand) {
+    return this.commandBus.execute(command)
   }
 }
