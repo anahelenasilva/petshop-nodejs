@@ -1,7 +1,7 @@
 import { CommandBus } from '@nestjs/cqrs'
 import { BookRoomCommand } from '../commands/book-room.command'
 
-export class RoomService {
+export class RoomBookService {
   constructor(private readonly commandBus: CommandBus) {}
 
   async Book(customerId: string, roomId: string) {
